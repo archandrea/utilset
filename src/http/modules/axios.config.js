@@ -29,10 +29,6 @@ _axios.interceptors.response.use(
   (response) => {
     // console.log(response)
     if (response.status !== 200) return Promise.reject(response)
-    if (typeof response.data === 'string') {
-      handleErrMsg(response.data)
-      return Promise.reject(response)
-    }
 
     handleAuthError(response.data?.state)
     handleGeneralError(response.data?.state, response.data?.msg)

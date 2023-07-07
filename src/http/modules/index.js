@@ -1,9 +1,14 @@
 import _axios from "./axios.config.js";
 import API from '../api.config.js'
 import { handleErrMsg } from './handlers.js'
+import { get, post } from './server.js'
 
-// axios 二次封装
-export default async function http({ api, data }) {
+export const http = {
+  get,
+  post
+}
+
+export async function api({ api, data }) {
   if (!API[api]) {
     handleErrMsg(`api:${api} 未注册或不存在`)
     return false
@@ -46,21 +51,26 @@ export default async function http({ api, data }) {
     }
   }
 
+  let result
   try {
     if (method === 'get') {
-      return await _axios({
+      result = await _axios({
         method,
         url,
         params,
         headers
       })
     } else {
-      return await _axios({
+      result = await _axios({
         method,
         url,
         data: params,
         headers
       })
     }
-  } catch (err) { }
+  } catch (err) {
+    handleErrMsg(err)
+  }
+
+  return result
 }
