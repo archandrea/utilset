@@ -1,12 +1,17 @@
-import http from './modules/http.js'
+import { api, http } from './modules/index.js'
 
 if (window && typeof window === 'object') {
   Object.defineProperties(window, {
     $api: {
       get() {
-        return http;
+        return api
       }
     },
+    $http: {
+      get() {
+        return http
+      }
+    }
   })
 }
 
