@@ -1,10 +1,13 @@
-import _axios from "./axios.config.js";
-import API from '../api.config.js'
+import service from './axios.js'
 
-export const get = (url, { params }, clearFn) => {
+export const get = (url, params, clearFn, headers) => {
   return new Promise((resolve) => {
-    _axios
-      .get(url, { params })
+    service({
+      method: 'get',
+      url,
+      params,
+      headers,
+    })
       .then((result) => {
         let res
         if (clearFn !== undefined) {
@@ -20,10 +23,15 @@ export const get = (url, { params }, clearFn) => {
   })
 }
 
-export const post = (url, data, params) => {
+export const post = async (url, data, params, headers) => {
   return new Promise((resolve) => {
-    _axios
-      .post(url, data, { params })
+    service({
+      method: 'post',
+      url,
+      data,
+      params,
+      headers: headers || { 'Content-type': 'multipart/form-data' },
+    })
       .then((result) => {
         resolve([null, result.data])
       })

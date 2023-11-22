@@ -7,7 +7,7 @@
  * @return {Array} 分级后的数据
  * @author: xz
  */
-function rankArray(data, steps, prop) {
+export function rankArray(data, steps, prop) {
   if (!data || !steps) {
     return []
   }

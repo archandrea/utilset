@@ -1,31 +1,31 @@
+import store from '@/store'
+import router from '@/router'
+import { Message } from 'element-ui'
+
 export const handleRequestHeader = (config) => {
-  if(!config.headers) config.headers = {}
-  // config.headers['session'] = '21342134'
-  config.headers['session123'] = '21342134'
   return config
 }
 
 export const handleAuth = (config) => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-  if (token) config.headers['token'] = token
   return config
 }
 
 export const handleNetworkError = (errStatus) => {
-  let errMessage = '未知错误'
+  console.log('network-error', errStatus)
+  let errMessage
   if (errStatus) {
     switch (errStatus) {
       case 400:
         errMessage = '错误的请求'
         break
-      case 401:
-        errMessage = '未授权，请重新登录'
-        break
+      // case 401:
+      //   errMessage = '无权限访问，请重新登陆'
+      //   break
       case 403:
         errMessage = '拒绝访问'
         break
       case 404:
-        errMessage = '请求错误,未找到该资源'
+        errMessage = '请求错误，未找到该资源'
         break
       case 405:
         errMessage = '请求方法未允许'
@@ -60,26 +60,29 @@ export const handleNetworkError = (errStatus) => {
   handleErrMsg(errMessage)
 }
 
-export const handleAuthError = (errno) => {
-  const authErrMap = {
-    '10031': '登录失效，需要重新登录', // token 失效
-    '10032': '您太久没登录，请重新登录~', // token 过期
-    '10033': '账户未绑定角色，请联系管理员绑定角色',
-    '10034': '该用户未注册，请联系管理员注册用户',
-    '10035': 'code 无法获取对应第三方平台用户',
-    '10036': '该账户未关联员工，请联系管理员做关联',
-    '10037': '账号已无效',
-    '10038': '账号未找到',
+export const handleAuthError = (response) => {
+  console.log('auth-error', response.data.code)
+  const errMap = {
+    '0': '验证失效，请重新登陆'
   }
-
-  if (authErrMap.hasOwnProperty(errno)) {
-    handleErrMsg(authErrMap[errno])
+  const errorCode = response.data.code
+  if (Object.prototype.hasOwnProperty.call(errMap, errorCode)) {
+    Message({
+      showClose: true,
+      message: errMap[errorCode],
+      type: 'error',
+      duration: 1200,
+      onClose: () => {
+        store.dispatch('user/logout')
+      }
+    })
     return false
   }
   return true
 }
 
 export const handleGeneralError = (errno, errmsg) => {
+  console.log('general-error', errno, errmsg)
   if (errno != 1) {
     handleErrMsg(errmsg)
     return false
@@ -88,5 +91,12 @@ export const handleGeneralError = (errno, errmsg) => {
 }
 
 export const handleErrMsg = (msg) => {
-  console.error(msg)
+  if (msg) {
+    Message({
+      showClose: true,
+      message: msg,
+      type: 'error',
+      duration: 1500,
+    })
+  }
 }

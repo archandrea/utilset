@@ -29,14 +29,14 @@
 })();
 
 
-function yieldToMain () {
+export function yieldToMain () {
   return new Promise(resolve => {
     // 使用 setTimeout 生成一个新的宏任务
     setTimeout(resolve, 0);
   });
 }
 
-async function saveSettings (tasks) {
+export async function saveSettings (tasks) {
   
   let deadline = performance.now() + 50;
 

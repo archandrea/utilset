@@ -23,7 +23,7 @@ export function handleSreenScale(app, designWidth = 1920, designHeight = 1080) {
  * @return {Boolean} 支持与否
  * @author: xz
  */
-function supportFullscreen() {
+export function supportFullscreen() {
   let requestFullscreen =
     document.body.requestFullscreen ||
     document.body.webkitRequestFullscreen ||
@@ -42,7 +42,7 @@ function supportFullscreen() {
  * @return {Boolean} 全屏与否
  * @author: xz
  */
-function isFullscreen() {
+export function isFullscreen() {
   if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
     return true;
   } else {
