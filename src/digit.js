@@ -4,8 +4,8 @@
  * @return {*} 格式化后的字符串
  * @author: xz
  */
-export function formatNumberWithCommas(n) {
+export function formatFigure(n, symbol = ',') {
   const parts = Number(n).toString().split('.')
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, symbol)
   return parts.join('.')
 }
