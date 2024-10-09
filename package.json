@@ -1,0 +1,18 @@
+{
+  "name": "utilset",
+  "version": "0.0.0",
+  "description": "personal utilset",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/archandrea/utilset.git"
+  },
+  "keywords": [
+    "util"
+  ],
+  "author": "andrea",
+  "license": "ISC"
+}
